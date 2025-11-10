@@ -87,14 +87,16 @@ public class TextureLoadUnloadManager : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (Time.frameCount % 5 == 0)
+        if (Time.frameCount % 60 == 0)
         {
             LoadRandomTextures();
             UnloadRandomTextures();
             LoadRandomTextures();
         }
-
         SetMaterials();
+        Resources.UnloadUnusedAssets();
+        System.GC.Collect();
+        
     }
 
 
@@ -139,7 +141,6 @@ public class TextureLoadUnloadManager : MonoBehaviour
         if (loadedTextures.Count == 0) return;
         textureSwitchQueue.Clear();
         int unloadCount = loadedTextures.Count; //Random.Range((int)(loadedTextures.Count * 0.2f), loadedTextures.Count); // 增加卸载数量
-        unloadCount = Mathf.Min(unloadCount, loadedTextures.Count);
 
         List<Texture2D> texturesToRemove = new List<Texture2D>();
 
